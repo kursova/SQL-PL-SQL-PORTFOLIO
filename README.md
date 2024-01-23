@@ -10,8 +10,8 @@ You can find raw data https://www.kaggle.com/datasets/arnabchaki/data-science-sa
 abou dataset
 Data Science Job Salaries Dataset contains 11 columns, each are:
 
-work_year: The year the salary was paid.
-experience_level: The experience level in the job during the year
+1-  work_year: The year the salary was paid.
+2-  experience_level: The experience level in the job during the year
 employment_type: The type of employment for the role
 job_title: The role worked in during the year.
 salary: The total gross salary amount paid.
