@@ -23,3 +23,4 @@ company_location: The country of the employer's main office or contracting branc
 company_size: The median number of people that worked for the company during the year
 
 We will analysis EDA Processes
+#   4- Finding Prime Number from 1 to 50
