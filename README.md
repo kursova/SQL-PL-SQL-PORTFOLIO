@@ -26,3 +26,4 @@ We will analysis EDA Processes
 #   4- Finding Prime Number from 1 to 50 (USING WITH PL/SQL)
 #   5- Outputting The Powers of 5 On The Screen  (USING WITH PL/SQL)
 #   6- Finding Weekdays  (USING WITH PL/SQL)
+#   7- Example of Nested
