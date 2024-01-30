@@ -1,3 +1,12 @@
+/*
+Analysis of the gross of a movie vs directors.
+Analysis of the gross of a movie vs different - different stars.
+Analysis of the No_of_votes of a movie vs directors.
+Analysis of the No_of_votes of a movie vs different - different stars.
+Which actor prefer which Genre more?
+Which combination of actors are getting good IMDB_Rating maximum time?
+Which combination of actors are getting good gross?
+*/
 SELECT * 
 FROM DEV_IMDB;---OUR FIRST TABLE. WE DON'T NEED Poster_Link COLUMN. SO I DIDIN'T IMPORT IT.
 
@@ -87,3 +96,9 @@ FROM (
         FROM DEV_IMDB_V2 V2
      ) 
 WHERE SEQ=1; --HAMLET IS THE LONGEST FILM BETWEEN 1920 AND 2020 YEARS.DIRECTOR Kenneth Branagh AND GROSS IS 4.414.535.
+
+
+SELECT STAR1, COUNT(*)
+FROM DEV_IMDB_V2
+GROUP BY STAR1
+ORDER BY COUNT(*) DESC; ---TOM HANKS IS THE MOST PREFERED ACTOR 
