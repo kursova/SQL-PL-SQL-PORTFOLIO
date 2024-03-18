@@ -89,3 +89,52 @@ DECLARE type per_info_type is record
         dbms_output.put_line(v_pers(2).id|| ' ' || v_pers(2).name  || ' '  || v_pers(2).salary);
         
     END;
+    
+    ---collection methods
+    
+  SET SERVEROUTPUT ON
+DECLARE 
+    TYPE country IS TABLE OF VARCHAR2(30)
+    INDEX BY VARCHAR2(2);
+    t_country country;
+BEGIN
+    t_country('TR'):='TURKIYE';
+    t_country('US'):='AMERICA';
+    t_country('DE'):='GERMANY';
+    t_country('AU'):='AUSTRALIA';
+    dbms_output.put_line(t_country.FIRST);
+    dbms_output.put_line(t_country.LAST);
+    dbms_output.put_line(t_country.PRIOR('TR'));
+    dbms_output.put_line(t_country.COUNT);
+    dbms_output.put_line(t_country.NEXT('UK'));
+    t_country.DELETE('FR');
+     dbms_output.put_line(t_country.COUNT);
+     IF NOT t_country.EXISTS('FR') THEN 
+           dbms_output.put_line('FR WAS DELETED');
+    END IF;
+END;
+     
+----kontrol edilece
+SET SERVEROUTPUT ON
+DECLARE 
+    TYPE country IS TABLE OF VARCHAR2(30)
+    INDEX BY VARCHAR2(2);
+    t_country country;
+    v_index varchar2(2) ;
+    
+BEGIN
+    t_country('TR'):='TURKIYE';
+    t_country('US'):='AMERICA';
+    t_country('DE'):='GERMANY';
+    t_country('AU'):='AUSTRALIA';
+    
+    v_index:=t_country.FIRST;
+    
+    WHILE v_index IS NOT NULL LOOP
+    
+    dbms_output.put_line(v_index || ': ' || t_country(v_index));
+     END LOOP;
+END;
+    
+   
+   
