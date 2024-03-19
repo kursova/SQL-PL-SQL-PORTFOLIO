@@ -114,7 +114,7 @@ BEGIN
     END IF;
 END;
      
-----kontrol edilece
+----collections with loop
 SET SERVEROUTPUT ON
 DECLARE 
     TYPE country IS TABLE OF VARCHAR2(30)
@@ -133,8 +133,12 @@ BEGIN
     WHILE v_index IS NOT NULL LOOP
     
     dbms_output.put_line(v_index || ': ' || t_country(v_index));
+    v_index:=t_country.next(v_index);
      END LOOP;
 END;
-    
    
+   
+----
+
+
    
