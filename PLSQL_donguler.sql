@@ -61,3 +61,11 @@ BEGIN
      END LOOP;
 END;
 
+---EKRANA ÇÝFT SAYILARI YAZDIRMA 
+SET SERVEROUT ON;
+BEGIN
+    for i in 1..20 LOOP
+        continue when mod(i,2)=1;
+        dbms_output.put_line (i);
+    END LOOP;
+END;
