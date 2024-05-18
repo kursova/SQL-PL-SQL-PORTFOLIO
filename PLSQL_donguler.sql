@@ -9,6 +9,17 @@ SELECT MUSTERI_ID, PAKET_ID, KURUM_ID, 0 AS ID FROM EA_70000_ABONE_BAZLI;
 
 SELECT * FROM EA_70000_V2;
 
+DECLARE
+    v_count number;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM EA_70000_V2;
+
+        FOR I IN 1..v_count LOOP
+            UPDATE EA_70000_V2
+                SET ID=ea_seq_V2.nextval;
+        END LOOP;
+END;
+
 ----WHILE ÝLE FAKTÖRÝYEL HESAPLAMA
 SET SERVEROUT ON;
 DECLARE
@@ -68,4 +79,14 @@ BEGIN
         continue when mod(i,2)=1;
         dbms_output.put_line (i);
     END LOOP;
+END;
+
+---ROWTYPE KULLANIMI
+SET SERVEROUT ON;
+DECLARE
+    v_personel EA_70000_V2%rowtype;
+    
+BEGIN 
+    select * into v_personel from EA_70000_V2 where id=3854730;
+    dbms_output.put_line(v_personel.PAKET_ID);
 END;
