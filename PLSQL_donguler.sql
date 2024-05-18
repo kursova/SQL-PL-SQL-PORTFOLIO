@@ -90,3 +90,26 @@ BEGIN
     select * into v_personel from EA_70000_V2 where id=3854730;
     dbms_output.put_line(v_personel.PAKET_ID);
 END;
+
+----ROWTYPE ILE INSERT KULLANIMI
+CREATE TABLE ayrilan_personel as 
+SELECT * FROM EA_70000_V2 where 1=0;
+
+DECLARE
+    v_ayrilan ayrilan_personel%rowtype;
+BEGIN
+    SELECT * INTO v_ayrilan FROM EA_70000_V2 WHERE ID=3854733;
+    insert into ayrilan_personel values v_ayrilan;
+END;
+SELECT * FROM EA_70000_V2;
+
+--ROWTYPE ILE UPDATE KULLANIMI
+DECLARE 
+    v_ayrilan ayrilan_personel%ROWTYPE;
+BEGIN 
+    SELECT * INTO v_ayrilan FROM ayrilan_personel WHERE ID=3854733;
+    v_ayrilan.PAKET_ID:=10;
+    UPDATE ayrilan_personel
+        SET ROW =v_ayrilan
+    WHERE ID=3854733;
+END;
