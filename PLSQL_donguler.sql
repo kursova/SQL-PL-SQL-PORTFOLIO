@@ -113,3 +113,32 @@ BEGIN
         SET ROW =v_ayrilan
     WHERE ID=3854733;
 END;
+
+
+SET SERVEROUT ON;
+DECLARE
+    type type_personel is table of EA_70000_V2%rowtype
+        index by VARCHAR2(250);
+    
+    v_personel type_personel;
+BEGIN 
+    SELECT * INTO  v_personel(1) FROM EA_70000_V2 WHERE ID=3854730;
+    DBMS_OUTPUT.PUT_LINE (v_personel(1).musteri_id);
+END;
+
+----LOOP 
+SET SERVEROUT ON;
+DECLARE
+    TYPE type_personel IS TABLE OF EA_70000_V2%ROWTYPE
+        INDEX BY VARCHAR2(250);
+    v_personel type_personel;
+BEGIN 
+    FOR i IN 1..10 LOOP
+        SELECT * INTO v_personel(i) FROM EA_70000_V2
+        WHERE ID=3854729+i;
+    END LOOP;
+    
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE (v_personel(i).musteri_id);
+    END LOOP;
+END;
