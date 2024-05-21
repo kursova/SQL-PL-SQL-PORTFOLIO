@@ -1,9 +1,12 @@
 
 ---SEQUENCE OLUÞTURMA
-CREATE SEQUENCE ea_seq_V2
-START WITH 5
+DROP SEQUENCE ea_seq_V3;
+CREATE SEQUENCE ea_seq_V4
+START WITH 1
 INCREMENT BY 1;
+CACHE_SIZE 1;
 
+DROP TABLE EA_70000_V2;
 CREATE TABLE EA_70000_V2 AS
 SELECT MUSTERI_ID, PAKET_ID, KURUM_ID, 0 AS ID FROM EA_70000_ABONE_BAZLI;
 
@@ -14,10 +17,9 @@ DECLARE
 BEGIN
     SELECT COUNT(*) INTO v_count FROM EA_70000_V2;
 
-        FOR I IN 1..v_count LOOP
             UPDATE EA_70000_V2
-                SET ID=ea_seq_V2.nextval;
-        END LOOP;
+                SET ID=ea_seq_V4.nextval;
+    
 END;
 
 ----WHILE ÝLE FAKTÖRÝYEL HESAPLAMA
@@ -142,3 +144,60 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE (v_personel(i).musteri_id);
     END LOOP;
 END;
+
+---COLLECTION ÝÇERÝSÝNDE DÖNGÜ
+SET SERVEROUT ON;
+DECLARE
+    TYPE sirket_type IS TABLE OF VARCHAR2(250)
+        INDEX BY VARCHAR2(250);
+        
+    v_sirket sirket_type;
+    v_count number;
+    v_key varchar(250);
+    v_name varchar(250);
+    v_hizmet_no varchar(250);
+    v_milenicom_count number:=0;
+    
+BEGIN
+    SELECT COUNT(*) INTO v_count 
+    FROM GZM_700;
+    
+    FOR i IN 1..v_count LOOP
+    
+        SELECT KURUM_ADI,HIZMET_NO
+        INTO v_name, v_hizmet_no
+        FROM GZM_700
+        WHERE ID=i;
+        
+        v_sirket(v_name):=v_hizmet_no;
+        
+    END LOOP;
+    
+    v_key:=v_sirket.first;
+    
+    WHILE v_key IS NOT NULL LOOP
+        IF (v_sirket(v_key) like '%MÝLLENÝCOM%') THEN 
+            dbms_output.put_line(v_key || ' : ' || v_sirket(v_key));
+            v_milenicom_count :=v_milenicom_count+1;
+        END IF;
+        
+        v_key:=v_sirket.next(v_key);
+        
+    END LOOP;
+    dbms_output.put_line ('tum musteriler: ' ||v_count );
+    dbms_output.put_line ('millenicom: ' ||v_milenicom_count );
+END;
+
+
+----NESTED TABLES 
+ DECLARE
+    TYPE isim_type IS TABLE OF VARCHAR(20); ---burada index yok
+    v_isimler isim_type;
+ BEGIN 
+    v_isimler := isim_type('gizem', 'didem', 'esra');
+    v_isimler.extend;
+    v_isimler(v_isimler.count):='yasemin';
+     for i in v_isimler.first..v_isimler.last loop
+        dbms_output.put_line(v_isimler(i));
+     end loop;
+ END;
