@@ -1,7 +1,7 @@
 
 ---SEQUENCE OLUÞTURMA
 DROP SEQUENCE ea_seq_V3;
-CREATE SEQUENCE ea_seq_V4
+CREATE SEQUENCE ea_seq_V5
 START WITH 1
 INCREMENT BY 1;
 CACHE_SIZE 1;
@@ -201,3 +201,22 @@ END;
         dbms_output.put_line(v_isimler(i));
      end loop;
  END;
+ 
+ ----CURSOR KULLANIMI
+SET SERVEROUTPUT ON;
+--SELECT * FROM EA_70000_V2;
+
+DECLARE
+    CURSOR c_personel IS 
+        SELECT musteri_id, id FROM EA_70000_V2;
+        
+    v_musteri_id EA_70000_V2.musteri_id%type;
+    id EA_70000_V2.id%type;
+BEGIN
+    OPEN c_personel;
+        FOR i IN 1..10 LOOP
+            FETCH c_personel INTO v_musteri_id, id;
+            dbms_output.put_line(v_musteri_id || ' : ' || id);
+        END LOOP;
+    CLOSE c_personel;
+END;
