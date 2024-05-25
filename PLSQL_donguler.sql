@@ -220,3 +220,36 @@ BEGIN
         END LOOP;
     CLOSE c_personel;
 END;
+
+----LOOP ÝÇERÝSÝNDE CURSOR VE RECORD KULLANIMI
+SET SERVEROUTPUT ON;
+DECLARE
+    CURSOR c_personel IS 
+        SELECT musteri_id, id FROM EA_70000_V2;
+        
+    --v_personel_record c_personel%rowtype;
+    c_new_line char(1):=CHR(10);
+BEGIN
+   -- OPEN c_personel;
+        FOR v_personel_record IN c_personel LOOP
+            --FETCH c_personel INTO v_personel_record;
+           dbms_output.put_line(v_personel_record.musteri_id  || c_new_line ||  v_personel_record.id  );
+        END LOOP;
+    --CLOSE c_personel;
+END;
+
+----CURSORDA PARAMETRE KULLANIMI 
+SET SERVEROUTPUT ON;
+DECLARE
+    CURSOR c_personel (c_paket_id number) IS 
+        SELECT * FROM EA_70000_V2
+        WHERE paket_id=c_paket_id;
+        
+    v_personel_record c_personel%rowtype;
+    c_new_line char(1):=CHR(10);
+BEGIN
+        FOR v_personel_record IN c_personel (129500) LOOP
+           dbms_output.put_line(v_personel_record.musteri_id  || ' : ' ||  v_personel_record.paket_id  );
+        END LOOP;
+    
+END;
