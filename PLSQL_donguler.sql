@@ -253,3 +253,78 @@ BEGIN
         END LOOP;
     
 END;
+
+----EXCEPTION BLOÐU KULLANIMI 
+SET SERVEROUTPUT ON;
+DECLARE
+    v_personel varchar2(250);
+BEGIN
+    SELECT paket_id INTO v_personel FROM EA_70000_V2 WHERE paket_id=129500;
+    EXCEPTION 
+        WHEN too_many_rows THEN 
+            dbms_output.put_line('birden fazla deðer var.');
+END;
+
+
+
+----ÝSÝMSÝZ BLOKTA KARESÝNÝ ALMA VS PROSEDÜRLE KARESÝNÝ ALMA 
+SET SERVEROUTPUT ON;
+DECLARE
+    v_sonuc number;
+BEGIN
+    for i in 1..10 LOOP
+        v_sonuc:=i**2;
+         dbms_output.put_line(i || ' karesi: ' || v_sonuc );
+    END LOOP;
+END;
+
+---PROSEDUR
+SET SERVEROUTPUT ON;
+CREATE OR REPLACE PROCEDURE karesini_al IS
+    v_sonuc number;
+BEGIN
+    for i in 1..10 LOOP
+        v_sonuc:=i**2;
+         dbms_output.put_line(i || ' karesi: ' || v_sonuc );
+    END LOOP;
+END;
+
+SELECT * FROM USER_OBJECTS WHERE OBJECT_TYPE='PROCEDURE';
+
+---PROSEDÜR ÇAÐIRMA 
+1-  EXECUTE PROSEDUR_ADI
+2-  EXEC PROSEDUR_ADI
+3-  BEGIN 
+    karesini_al;
+END;
+
+-----PARAMETRELÝ PROSEDÜR OLUÞTURMA //BU ÇALIÞMADI NEDEN??
+SET SERVEROUTPUT ON;
+CREATE OR REPLACE PROCEDURE personel_yazdir (p_paket_id NUMBER) IS 
+  
+    CURSOR c_personel IS
+        SELECT * FROM EA_70000_V2
+        paket_id=p_paket_id;
+BEGIN 
+    FOR i IN c_personel LOOP
+        dbms_output.put_line(ID || ' :' || i );
+    END LOOP;
+END;
+ EXEC PERSONEL_YAZDÝR(129364);
+SELECT * FROM EA_70000_V2;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
