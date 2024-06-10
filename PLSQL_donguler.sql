@@ -300,7 +300,7 @@ END;
 
 -----PARAMETRELÝ PROSEDÜR OLUÞTURMA //BU ÇALIÞMADI NEDEN??
 SET SERVEROUTPUT ON;
-CREATE OR REPLACE PROCEDURE personel_yazdir (p_paket_id NUMBER) IS 
+CREATE OR REPLACE PROCEDURE personel_yazdr (p_paket_id NUMBER) IS 
   
     CURSOR c_personel IS
         SELECT * FROM EA_70000_V2
@@ -310,19 +310,147 @@ BEGIN
         dbms_output.put_line(ID || ' :' || i );
     END LOOP;
 END;
- EXEC PERSONEL_YAZDÝR(129364);
+
+ EXEC personel_yazdr(129364);
 SELECT * FROM EA_70000_V2;
 
 
+---------------PARAMETRELI PROSEDÜR OLUÞTURMA -2 (BU KISMI KULLANARAK DAHA SONRA YAPMAK ÝSTEDÝÐÝMÝZ INSERT PROSEDÜRÜNÜ KULLANABÝLÝRÝZ 
+CREATE OR REPLACE PROCEDURE konum_ekle 
+    (
+        p_konum_id konum.konum_id%type,
+        p_konum_adi varchar,
+        p_il_kodu number 
+    )
+IS 
+BEGIN 
+    INSERT INTO konum
+    values (p_konum_id, p_konum_adi, p_il_kodu);
+    commit;
+END;
+
+EXEC konum_ekle (222,'deneme', 45);
+
+---------
+CREATE OR REPLACE PROCEDURE test_datasi_dondurme (p_abone_id number) IS 
+    v_abone SMARTTBILL.ABONE_HAREKET%ROW_TYPE;
+BEGIN
+    SELECT * INTO v_abone
+    FROM SMARTTBILL.ABONE_HAREKET 
+    WHERE ABONE_ID=p_abone_id;
+    DBMS_OUTPUT.put_line('insert into SMARTTBILL.ABONE_HAREKET ' || );
+END;
 
 
 
 
 
 
+---------------
 
+CREATE OR REPLACE PROCEDURE test_datasi_dondurme (p_abone_id number) IS 
 
+    v_abone SMARTTBILL.ABONE_HAREKET%ROWTYPE;
+BEGIN
+    SELECT * INTO v_abone
+    FROM SMARTTBILL.ABONE_HAREKET 
+    WHERE ABONE_ID=p_abone_id;
 
+    FUNCTION check_null (val IN VARCHAR2) 
+    RETURN VARCHAR2 IS 
+        BEGIN 
+            IF val IS NULL THEN 
+                RETURN 'NULL';
+            ELSE 
+                RETURN '''' || REPLACE(val,'''','''''') || '''';
+            END IF;   
+        END check_null;
+        
+        FUNCTION check_null_number (val IN NUMBER) 
+    RETURN VARCHAR2 IS 
+        BEGIN 
+            IF val IS NULL THEN 
+                RETURN 'NULL';
+            ELSE 
+                RETURN TO_CHAR(val);
+            END IF;   
+        END check_null;
+        
+    DBMS_OUTPUT.PUT_LINE (
+    'Insert into SMARTTBILL.ABONE_HAREKET (
+    ID,ABONE_ID,HESAP_ID,HIZMET_NO,HIZMET_TURU,ALT_HIZMET_TURU,PAKET_TURU,HIZ,SA_GRUP_KODU,SERVIS_SEVIYE_ID,ABONE_TIPI,VPOP_SAYISI,ABONE_TURU,DEVRE_CESIDI,INDIRIMLI_SOZLESME_ID,PROJE_TAKIP_KODU,TESIS_TARIHI,IPTAL_TARIHI,SERVISE_VERILIS_TARIHI,IL_KODU,CAGRI_NO,HAREKET_IS_TURU,BASLANGIC_TARIHI,UZAK_MESAFE,TAMAMLANMA_ZAMANI,HEADER_ID,UPLOAD_HIZI_ORAN,MUDURLUK_KODU,SONLANMA_TARIHI,HAT_SAYISI,ISEMRI_GELIS_TARIHI,DOMAIN_ADI,KULLANICI_KIMLIK,DURUM,STATIK_IP,ANA_DEVRE_NO,HAREKET_ALT_IS_TURU,TESIS_BB_KODU,ACIKLAMA,KULLANICI_SAYISI,BELEDIYE_KODU,NUSHA_SAYISI,ESKI_ID,ENGELLI_INDIRIMI,XDSL_TIP_KODU,OM_TARIFE_ID,TOPLAMA_MERKEZI,KADEME,DONEM_ID,LOKASYON_ID,FIBER_MESAFE,REFERANS_HESAP_NO,DEVRE_OZELLIK,ILISKILI_HIZMET_NO,UST_HEADER_ID,DEVRE_KULLANIM_TIPI,URUN_SIPARIS_NO,XDSL_LAC_ID,TLAC_SERVICE_NUMBER,ALTYAPI_TIPI)
+    values 
+    (' 
+    ||
+    check_null(v_abone.ID)|| ','||
+    check_null(v_abone.ABONE_ID)|| ','||
+    check_null(v_abone.HESAP_ID)|| ','||
+    check_null(v_abone.HIZMET_NO)|| ','||
+    check_null(v_abone.HIZMET_TURU)|| ','||
+    check_null(v_abone.ALT_HIZMET_TURU)|| ','||
+    check_null(v_abone.PAKET_TURU)|| ','||
+    check_null(v_abone.HIZ)|| ','||
+    check_null(v_abone.SA_GRUP_KODU)|| ','||
+    check_null(v_abone.SERVIS_SEVIYE_ID)|| ','||
+    check_null(v_abone.ABONE_TIPI)|| ','||
+    check_null(v_abone.VPOP_SAYISI)|| ','||
+    check_null(v_abone.ABONE_TURU)|| ','||
+    check_null(v_abone.DEVRE_CESIDI)|| ','||
+    check_null(v_abone.INDIRIMLI_SOZLESME_ID)|| ','||
+    check_null(v_abone.PROJE_TAKIP_KODU)|| ','||
+    check_null(v_abone.TESIS_TARIHI)|| ','||
+    check_null(v_abone.IPTAL_TARIHI)|| ','||
+    check_null(v_abone.SERVISE_VERILIS_TARIHI)|| ','||
+    check_null(v_abone.IL_KODU)|| ','||
+    check_null(v_abone.CAGRI_NO)|| ','||
+    check_null(v_abone.HAREKET_IS_TURU)|| ','||
+    check_null(v_abone.BASLANGIC_TARIHI)|| ','||
+    check_null(v_abone.UZAK_MESAFE)|| ','||
+    check_null(v_abone.TAMAMLANMA_ZAMANI)|| ','||
+    check_null(v_abone.HEADER_ID)|| ','||
+    check_null(v_abone.UPLOAD_HIZI_ORAN)|| ','||
+    check_null(v_abone.MUDURLUK_KODU)|| ','||
+    check_null(v_abone.SONLANMA_TARIHI)|| ','||
+    check_null(v_abone.HAT_SAYISI)|| ','||
+    check_null(v_abone.ISEMRI_GELIS_TARIHI)|| ','||
+    check_null(v_abone.DOMAIN_ADI)|| ','||
+    check_null(v_abone.KULLANICI_KIMLIK)|| ','||
+    check_null(v_abone.DURUM)|| ','||
+    check_null(v_abone.STATIK_IP)|| ','||
+    check_null(v_abone.ANA_DEVRE_NO)|| ','||
+    check_null(v_abone.HAREKET_ALT_IS_TURU)|| ','||
+    check_null(v_abone.TESIS_BB_KODU)|| ','||
+    check_null(v_abone.ACIKLAMA)|| ','||
+    check_null(v_abone.KULLANICI_SAYISI)|| ','||
+    check_null(v_abone.BELEDIYE_KODU)|| ','||
+    check_null(v_abone.NUSHA_SAYISI)|| ','||
+    check_null(v_abone.ESKI_ID)|| ','||
+    check_null(v_abone.ENGELLI_INDIRIMI)|| ','||
+    check_null(v_abone.XDSL_TIP_KODU)|| ','||
+    check_null(v_abone.OM_TARIFE_ID)|| ','||
+    check_null(v_abone.TOPLAMA_MERKEZI)|| ','||
+    check_null(v_abone.KADEME)|| ','||
+    check_null(v_abone.DONEM_ID)|| ','||
+    check_null(v_abone.LOKASYON_ID)|| ','||
+    check_null(v_abone.FIBER_MESAFE)|| ','||
+    check_null(v_abone.REFERANS_HESAP_NO)|| ','||
+    check_null(v_abone.DEVRE_OZELLIK)|| ','||
+    check_null(v_abone.ILISKILI_HIZMET_NO)|| ','||
+    check_null(v_abone.UST_HEADER_ID)|| ','||
+    check_null(v_abone.DEVRE_KULLANIM_TIPI)|| ','||
+    check_null(v_abone.URUN_SIPARIS_NO)|| ','||
+    check_null(v_abone.XDSL_LAC_ID)|| ','||
+    check_null(v_abone.TLAC_SERVICE_NUMBER)|| ','||
+    check_null(v_abone.ALTYAPI_TIPI)|| ','||
+
+    ')'
+    );
+END ;
+
+SET SERVEROUTPUT ON;
+EXEC test_datasi_dondurme(54263848127);
+
+SELECT * FROM SMARTTBILL.ABONE_HAREKET WHERE ABONE_ID=54263848127;
 
 
 
